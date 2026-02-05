@@ -119,9 +119,15 @@ function processTranslation(translation, replaceFlag) {
       const end = activeElement.selectionEnd;
       const value = activeElement.value;
 
-      activeElement.value =
+      const nextValue =
         value.substring(0, start) + translation + value.substring(end);
+
+      activeElement.value = nextValue;
       activeElement.setSelectionRange(start, start + translation.length);
+
+      // ✅ 关键：补事件
+      activeElement.dispatchEvent(new Event("input", { bubbles: true }));
+      activeElement.dispatchEvent(new Event("change", { bubbles: true }));
     } else {
       const selection = window.getSelection();
       if (selection.rangeCount > 0) {
