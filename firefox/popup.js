@@ -89,7 +89,10 @@ document.addEventListener("DOMContentLoaded", function () {
       const defaultConfig = defaultPrompts[id] || {};
       const storedConfig = storedPrompts[id] || {};
       const label = storedConfig.label || defaultConfig.label || id;
-      const prompt = storedConfig.prompt || defaultConfig.prompt || "";
+      // 内置模式始终使用 DEFAULT_PROMPTS 中的提示词，确保更新后能自动同步到 storage
+      const prompt = defaultPrompts[id]
+        ? defaultConfig.prompt || storedConfig.prompt || ""
+        : storedConfig.prompt || defaultConfig.prompt || "";
       const mergedId = storedConfig.id || defaultConfig.id || id;
       const canDelete = storedConfig.hasOwnProperty("canDelete")
         ? storedConfig.canDelete
@@ -108,6 +111,14 @@ document.addEventListener("DOMContentLoaded", function () {
         changed = true;
       }
       if (!storedConfig.hasOwnProperty("canDelete")) {
+        changed = true;
+      }
+      // 内置模式提示词有更新时标记需要持久化
+      if (
+        defaultPrompts[id] &&
+        storedConfig.prompt &&
+        storedConfig.prompt !== defaultConfig.prompt
+      ) {
         changed = true;
       }
       merged[id] = { label, prompt, id: mergedId, canDelete };
