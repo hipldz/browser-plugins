@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <!-- iOS 风格：简约白底+圆角卡片+轻微阴影，宽度调整 -->
+    <style>
+      body {
+        width: 360px;
+        margin: 0;
+        padding: 10px;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+        background: #f2f2f7;
+        color: #000;
+      }
+      #tabs {
+        margin-top: 0;
+      }
+      .tab {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px;
+        margin: 5px 0;
+        border-radius: 12px;
+        background: #fff;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+      .tab-left {
+        display: flex;
+        align-items: center;
+        flex: 1;
+        overflow: hidden;
+      }
+      .tab-number {
+        font-weight: 600;
+        margin-right: 8px;
+        color: #555;
+      }
+      .tab-info {
+        flex: 1;
+        font-size: 14px;
+        color: #000;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .tab-right {
+        display: flex;
+        align-items: center;
+      }
+      .switch {
+        position: relative;
+        display: inline-block;
+        width: 40px;
+        height: 24px;
+      }
+      .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #e5e5ea;
+        transition: 0.4s;
+        border-radius: 12px;
+      }
+      .slider:before {
+        position: absolute;
+        content: "";
+        height: 20px;
+        width: 20px;
+        left: 2px;
+        top: 2px;
+        background-color: #fff;
+        transition: 0.4s;
+        border-radius: 50%;
+      }
+      input:checked + .slider {
+        background-color: #34c759;
+      }
+      input:checked + .slider:before {
+        transform: translateX(16px);
+      }
+      .error {
+        color: #fff;
+        background: #ff3b30;
+        padding: 5px;
+        border-radius: 6px;
+        text-align: center;
+        margin-top: 10px;
+        display: none;
+        font-size: 13px;
+      }
+      .mask-settings {
+        margin-top: 12px;
+        padding: 10px;
+        border-radius: 12px;
+        background: #fff;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+      .mask-settings label {
+        display: block;
+        font-size: 14px;
+        font-weight: 600;
+        color: #333;
+      }
+      .mask-controls {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 8px;
+      }
+      #mask-selector {
+        flex: 1;
+        padding: 6px 10px;
+        font-size: 14px;
+        border: 1px solid #d1d1d6;
+        border-radius: 8px;
+        background: #f9f9fb;
+        color: #000;
+      }
+      #mask-selector:focus {
+        outline: none;
+        border-color: #34c759;
+        background: #fff;
+      }
+      .mask-checkbox {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 13px;
+        color: #555;
+      }
+      .lifecycle-note {
+        margin: 12px 4px 2px;
+        font-size: 12px;
+        line-height: 1.7;
+        color: #6e6e78;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="error" class="error"></div>
+    <div id="tabs"><p>加载中...</p></div>
+    <div class="mask-settings">
+      <label for="mask-selector">Mask element</label>
+      <div class="mask-controls">
+        <input
+          type="text"
+          id="mask-selector"
+          value=".bili-mini-mask"
+          placeholder=".bili-mini-mask 或 #bili-mini-mask"
+          autocomplete="off"
+        />
+        <label class="mask-checkbox" for="mask-enabled">
+          <input type="checkbox" id="mask-enabled" />
+          启用
+        </label>
+      </div>
+    </div>
+    <p class="lifecycle-note">
+      关闭面板后，监控仍会继续。<br />
+      重启浏览器需重新开启，设置会保留。
+    </p>
+    <script src="popup.js"></script>
+  </body>
+</html>
