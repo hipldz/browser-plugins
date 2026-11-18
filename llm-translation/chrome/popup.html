@@ -206,14 +206,42 @@
         opacity: 0;
         pointer-events: none;
       }
+      .result-header {
+        justify-content: space-between;
+        margin-bottom: 6px;
+      }
+      .copy-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        padding: 0;
+        border: none;
+        border-radius: 6px;
+        background: transparent;
+        color: #007aff;
+        cursor: pointer;
+      }
+      .copy-button:hover:not(:disabled) {
+        background: #f0f6ff;
+      }
+      .copy-button:focus-visible {
+        outline: 2px solid #007aff;
+        outline-offset: 2px;
+      }
+      .copy-button:disabled {
+        color: #a3a3a8;
+        cursor: default;
+      }
       .result {
         background: #f7f7f8;
         padding: 10px;
         border-radius: 8px;
         font-size: 13px;
         line-height: 1.3;
-        min-height: 50px;
-        max-height: 150px;
+        min-height: 120px;
+        max-height: 300px;
         overflow-y: auto;
         color: #3c3c43;
       }
@@ -311,8 +339,32 @@
         <button id="start-translate" class="button">执行</button>
       </div>
       <div class="separator"></div>
-      <div class="row">
+      <div class="row result-header">
         <label>结果</label>
+        <button
+          id="copy-result-button"
+          class="copy-button"
+          type="button"
+          title="复制结果"
+          aria-label="复制结果"
+          disabled
+        >
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <rect x="8" y="8" width="12" height="13" rx="2" />
+            <path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3" />
+          </svg>
+        </button>
       </div>
       <div class="result" id="res-span">&nbsp;</div>
     </div>

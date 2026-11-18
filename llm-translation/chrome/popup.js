@@ -16,6 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const translateTextarea = document.getElementById("translate-textarea");
   const translateReplace = document.getElementById("replace-text-checkbox");
   const resultSpan = document.getElementById("res-span");
+  const copyResultButton = document.getElementById("copy-result-button");
   const notification = document.getElementById("notification");
 
   // 检查是否所有关键元素都存在
@@ -34,6 +35,7 @@ document.addEventListener("DOMContentLoaded", function () {
     !translateTextarea ||
     !translateReplace ||
     !resultSpan ||
+    !copyResultButton ||
     !notification
   ) {
     console.error("部分必要的 DOM 元素不存在，请检查 popup.html 文件的结构。");
@@ -395,6 +397,23 @@ document.addEventListener("DOMContentLoaded", function () {
     promptTextarea.disabled = promptLockCheckbox.checked;
   });
 
+  copyResultButton.addEventListener("click", async function () {
+    const text = resultSpan.textContent;
+    if (!text.trim()) {
+      return;
+    }
+    copyResultButton.disabled = true;
+    try {
+      await navigator.clipboard.writeText(text);
+      showNotification("已复制");
+    } catch (error) {
+      console.error("复制结果失败：", error);
+      showNotification("复制失败，请手动选择结果复制。", "error");
+    } finally {
+      copyResultButton.disabled = !resultSpan.textContent.trim();
+    }
+  });
+
   // 点击翻译按钮时执行
   translateButton.addEventListener("click", async function () {
     schedulePromptSave(true);
@@ -403,6 +422,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const data = translateTextarea.value;
     const result = await fetchLLM(data);
     resultSpan.textContent = result;
+    copyResultButton.disabled = !resultSpan.textContent.trim();
     translateButton.textContent = "翻译";
   });
 });
